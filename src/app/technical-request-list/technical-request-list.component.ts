@@ -19,15 +19,11 @@ export class TechnicalRequestListComponent {
     private getTechnicalPurchaseHttpService: GetTechnicalRequestHttpService
   ) {
     this.unSelectedAll();
-    this.data$ = this.subject.asObservable();
+    // this.data$ = this.subject.asObservable();
     this.getData();
   }
   getData() {
-    this.getTechnicalPurchaseHttpService
-      .getData()
-      .subscribe((x) => {
-        console.log(x);
-      });
+    this.data$ = this.getTechnicalPurchaseHttpService.getData();
   }
   unSelectedAll() {
     var get =

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
 import { TechnicalRequestListDomain } from './technical-request-list.domain';
 import { TechnicalRequestModelListSubjectService } from './technical-request-model-list-subject.service';
 import { TechnicalRequestModel } from './technicalRequest.model';
@@ -9,7 +8,7 @@ import { TechnicalRequestModel } from './technicalRequest.model';
 })
 export class TechnicalRequestModelListRepositoryService {
   constructor(
-    private technicalRequestModelListSubjectService: TechnicalRequestModelListSubjectService,
+    private technicalRequestModelListSubjectService: TechnicalRequestModelListSubjectService
   ) {}
 
   getTechnicalRequestModelListDomain(): TechnicalRequestListDomain {
