@@ -1,0 +1,4 @@
+<ng-container *ngFor="let item of data$ | async; index as i">
+  <input type="radio" name="radio-group" id="{{ i }}" (change)="onSelect(i)" />
+  <label for="{{ i }}">{{ item.name }}</label>
+</ng-container>

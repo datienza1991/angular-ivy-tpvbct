@@ -1,0 +1,31 @@
+<h1>Edit Technical Request</h1>
+<input [(ngModel)]="name" />
+<br />
+<br />
+<button (click)="onNewArticle_Click()">New Article</button>
+<br />
+<ng-container *ngFor="let article of articles; index as i">
+  <input
+    type="radio"
+    name="radio-group"
+    id="{{ i }}"
+    (change)="onSelectArticle(i)"
+  />
+  <label for="{{ i }}">{{ article.name }}</label>
+</ng-container>
+<br />
+<technical-request-add-article
+  *ngIf="showAddArticleForm"
+  (onCloseAddArticleForm)="onCloseAddArticleForm()"
+  ><br
+/></technical-request-add-article>
+<technical-request-edit-article
+  *ngIf="showEditArticleForm"
+  (onCloseEditArticleForm)="onCloseEditArticleForm()"
+  ><br
+/></technical-request-edit-article>
+
+<button (click)="onEditTechnicalRequestModel_Click()">
+  Edit Technical Request Model
+</button>
+<br />
