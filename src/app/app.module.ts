@@ -11,8 +11,8 @@ import { FormGuardService } from './form-guard.service';
 import { TechnicalRequestAddArticleComponent } from './technical-request-add/technical-request-add-article.component';
 import { TechnicalRequestEditArticleComponent } from './technical-request-add/technical-request-edit-article.component';
 import { TechnicalRequestEditComponent } from './technical-request-edit/technical-request-edit.component';
-import { GetTechnicalRequestHttpService } from './services/get-technical-request-http.service';
 import { HttpClientModule } from '@angular/common/http';
+import { GetTechnicalRequestListHttpService } from './services/get-technical-request-list-http.service';
 
 const routes: Routes = [
   { path: '', component: TechnicalRequestListComponent },
@@ -46,7 +46,7 @@ const routes: Routes = [
   providers: [
     TechnicalRequestDomainSubjectService,
     TechnicalRequestListDomainSubjectService,
-    GetTechnicalRequestHttpService,
+    GetTechnicalRequestListHttpService,
   ],
   bootstrap: [AppComponent],
   exports: [RouterModule],

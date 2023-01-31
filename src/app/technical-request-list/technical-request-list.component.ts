@@ -4,7 +4,8 @@ import { TechnicalRequestModelListRepositoryService } from '../technical-request
 import { TechnicalRequestModelListSubjectService } from '../technical-request-model-list-subject.service';
 import { TechnicalRequestModel } from '../technicalRequest.model';
 import { Router } from '@angular/router';
-import { GetTechnicalRequestHttpService } from '../services/get-technical-request-http.service';
+import { GetTechnicalRequestListHttpService } from '../services/get-technical-request-list-http.service';
+
 @Component({
   selector: 'technical-request-list',
   templateUrl: './technical-request-list.component.html',
@@ -14,12 +15,10 @@ export class TechnicalRequestListComponent {
   data$: Observable<TechnicalRequestModel[]>;
   constructor(
     private router: Router,
-    private subject: TechnicalRequestModelListSubjectService,
     private technicalRequestModelListRepositoryService: TechnicalRequestModelListRepositoryService,
-    private getTechnicalPurchaseHttpService: GetTechnicalRequestHttpService
+    private getTechnicalPurchaseHttpService: GetTechnicalRequestListHttpService
   ) {
     this.unSelectedAll();
-    // this.data$ = this.subject.asObservable();
     this.getData();
   }
   getData() {

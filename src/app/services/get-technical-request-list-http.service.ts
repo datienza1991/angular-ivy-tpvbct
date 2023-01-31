@@ -7,7 +7,7 @@ const API_URL = 'https://reqres.in';
 @Injectable({
   providedIn: 'root',
 })
-export class GetTechnicalRequestHttpService {
+export class GetTechnicalRequestListHttpService {
   constructor(private http: HttpClient) {}
 
   getData(): Observable<TechnicalRequestModel[]> {
