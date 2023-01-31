@@ -13,6 +13,7 @@ import { TechnicalRequestEditArticleComponent } from './technical-request-add/te
 import { TechnicalRequestEditComponent } from './technical-request-edit/technical-request-edit.component';
 import { HttpClientModule } from '@angular/common/http';
 import { GetTechnicalRequestListHttpService } from './services/get-technical-request-list-http.service';
+import { AddTechnicalRequestHttpService } from './services/add-technical-request-http.service';
 
 const routes: Routes = [
   { path: '', component: TechnicalRequestListComponent },
@@ -47,6 +48,7 @@ const routes: Routes = [
     TechnicalRequestDomainSubjectService,
     TechnicalRequestListDomainSubjectService,
     GetTechnicalRequestListHttpService,
+    AddTechnicalRequestHttpService,
   ],
   bootstrap: [AppComponent],
   exports: [RouterModule],

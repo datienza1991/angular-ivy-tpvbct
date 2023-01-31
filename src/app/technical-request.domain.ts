@@ -15,6 +15,20 @@ export class TechnicalRequestDomain {
     return this._technicalRequest;
   }
 
+  setValidName(name: string): boolean {
+    if (name === '') {
+      console.log(this.constructor.name, 'emtpy Name');
+      return false;
+    }
+
+    if (name.includes('test')) {
+      console.log(this.constructor.name, 'invalid Name with test');
+      return false;
+    }
+
+    return true;
+  }
+
   addArticle(article: Article) {
     const foundArticle =
       this._technicalRequest?.articles &&

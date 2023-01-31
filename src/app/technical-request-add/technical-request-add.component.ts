@@ -2,6 +2,7 @@ import { Component, ContentChild, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AddTechnicalRequestHttpService } from '../services/add-technical-request-http.service';
 import { TechnicalRequestModelListRepositoryService } from '../technical-request-model-list-repository.service';
 import { TechnicalRequestModelListSubjectService } from '../technical-request-model-list-subject.service';
 import { TechnicalRequestModelRepositoryService } from '../technical-request-model-repository.service';
@@ -18,12 +19,15 @@ export class TechnicalRequestAddComponent {
   articles = [];
   showAddArticleForm = false;
   showEditArticleForm = false;
+  isloading = false;
   @ContentChild('form') form: NgForm;
+  id: string;
   constructor(
     private technicalRequestModelSubject: TechnicalRequestModelSubjectService,
     private router: Router,
     private technicalRequestModelListRepositoryService: TechnicalRequestModelListRepositoryService,
-    private technicalRequestModelRepositoryService: TechnicalRequestModelRepositoryService
+    private technicalRequestModelRepositoryService: TechnicalRequestModelRepositoryService,
+    private addTechnicalRequestHttpService: AddTechnicalRequestHttpService
   ) {
     this.setTechnicalRequestModelToEmpty();
     this.subcribeToTechnicalRequestModelValueSubject();
@@ -36,11 +40,13 @@ export class TechnicalRequestAddComponent {
       if (x.name != '') {
         this.name = x.name;
       }
+      this.id = x.id;
       this.articles = x.articles;
     });
   }
   setTechnicalRequestModelToEmpty() {
     this.technicalRequestModelRepositoryService.save({
+      id: this.generateGUID(),
       name: '',
       articles: [],
     });
@@ -50,14 +56,17 @@ export class TechnicalRequestAddComponent {
   }
   onAddTechnicalRequestModel_Click() {
     const get =
-      this.technicalRequestModelListRepositoryService.getTechnicalRequestModelListDomain();
-    get.addTechnicalRequestModel({ name: this.name, articles: this.articles });
+      this.technicalRequestModelRepositoryService.getTechnicalRequestModelDomain();
 
-    this.technicalRequestModelListRepositoryService.save(
-      get.technicalRequestModelList
-    );
-    this.name = '';
-    this.router.navigate(['..']);
+    if (!get.setValidName(this.name)) return;
+
+    this.isloading = true;
+    this.addTechnicalRequestHttpService
+      .execute(get.technicalRequestModel)
+      .subscribe((x) => {
+        this.name = '';
+        this.router.navigate(['..']);
+      });
   }
   onDelete() {
     // const tr = this.subject.getValue();
@@ -76,5 +85,16 @@ export class TechnicalRequestAddComponent {
   }
   onCloseEditArticleForm() {
     this.showEditArticleForm = false;
+  }
+
+  generateGUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+      /[xy]/g,
+      function (c) {
+        let r = (Math.random() * 16) | 0,
+          v = c == 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      }
+    );
   }
 }
