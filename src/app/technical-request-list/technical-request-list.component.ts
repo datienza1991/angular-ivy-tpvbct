@@ -24,7 +24,7 @@ export class TechnicalRequestListComponent {
     this.getData();
   }
   getData() {
-    this.data$ = this.getTechnicalPurchaseHttpService.getData();
+    this.data$ = this.getTechnicalPurchaseHttpService.execute();
   }
   unSelectedAll() {
     var get =
@@ -35,12 +35,6 @@ export class TechnicalRequestListComponent {
     this.technicalRequestModelListRepositoryService.save(
       get.technicalRequestModelList
     );
-  }
-
-  onEdit() {
-    //const tr = this.subject.getValue();
-    //tr.editArticle(0, { name: 'test2' });
-    //this.subject.next(tr);
   }
 
   onSelect(i: number) {

@@ -25,6 +25,7 @@ export class TechnicalRequestDomain {
       console.log(this.constructor.name, 'invalid Name with test');
       return false;
     }
+    this._technicalRequest.name = name;
 
     return true;
   }
