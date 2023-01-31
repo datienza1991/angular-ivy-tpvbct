@@ -5,6 +5,7 @@ import { TechnicalRequestModelListSubjectService } from '../technical-request-mo
 import { TechnicalRequestModel } from '../technicalRequest.model';
 import { Router } from '@angular/router';
 import { GetTechnicalRequestListHttpService } from '../services/get-technical-request-list-http.service';
+import { TechnicalRequestModelRepositoryService } from '../technical-request-model-repository.service';
 
 @Component({
   selector: 'technical-request-list',
@@ -16,6 +17,7 @@ export class TechnicalRequestListComponent {
   constructor(
     private router: Router,
     private technicalRequestModelListRepositoryService: TechnicalRequestModelListRepositoryService,
+    private technicalRequestModeRepositoryService: TechnicalRequestModelRepositoryService,
     private getTechnicalPurchaseHttpService: GetTechnicalRequestListHttpService
   ) {
     this.unSelectedAll();
@@ -42,13 +44,10 @@ export class TechnicalRequestListComponent {
   }
 
   onSelect(i: number) {
-    const get =
-      this.technicalRequestModelListRepositoryService.getTechnicalRequestModelListDomain();
-
-    get.select(i);
-    this.technicalRequestModelListRepositoryService.save(
-      get.technicalRequestModelList
-    );
-    this.router.navigate(['edit']);
+    this.data$.subscribe((x) => {
+      var selected = x[i];
+      this.technicalRequestModeRepositoryService.save(selected);
+      this.router.navigate(['edit']);
+    });
   }
 }
