@@ -14,6 +14,7 @@ import { TechnicalRequestModelRepositoryService } from '../technical-request-mod
 })
 export class TechnicalRequestListComponent {
   data$: Observable<TechnicalRequestModel[]>;
+  isLoading = false;
   constructor(
     private router: Router,
     private technicalRequestModelListRepositoryService: TechnicalRequestModelListRepositoryService,
@@ -24,7 +25,11 @@ export class TechnicalRequestListComponent {
     this.getData();
   }
   getData() {
+    this.isLoading = true;
     this.data$ = this.getTechnicalPurchaseHttpService.execute();
+    this.data$.subscribe((x) => {
+      this.isLoading = false;
+    });
   }
   unSelectedAll() {
     var get =
