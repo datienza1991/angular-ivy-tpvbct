@@ -25,7 +25,8 @@
   ><br
 /></technical-request-edit-article>
 
-<button (click)="onEditTechnicalRequestModel_Click()">
-  Edit Technical Request Model
-</button>
+<button
+  [textContent]="isloading ? 'Saving...' : ' Edit Technical Request Model'"
+  (click)="onEditTechnicalRequestModel_Click()"
+></button>
 <br />

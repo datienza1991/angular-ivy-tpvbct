@@ -2,6 +2,7 @@ import { Component, ContentChild, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { EditTechnicalRequestHttpService } from '../services/edit-technical-request-http.service';
 import { TechnicalRequestModelListRepositoryService } from '../technical-request-model-list-repository.service';
 import { TechnicalRequestModelListSubjectService } from '../technical-request-model-list-subject.service';
 import { TechnicalRequestModelRepositoryService } from '../technical-request-model-repository.service';
@@ -19,12 +20,15 @@ export class TechnicalRequestEditComponent {
   showAddArticleForm = false;
   showEditArticleForm = false;
   @ContentChild('form') form: NgForm;
+isloading: boolean;
+id: string;
   constructor(
     private technicalRequestModelListSubject: TechnicalRequestModelListSubjectService,
     private technicalRequestModelSubject: TechnicalRequestModelSubjectService,
     private router: Router,
     private technicalRequestModelListRepositoryService: TechnicalRequestModelListRepositoryService,
-    private technicalRequestModelRepositoryService: TechnicalRequestModelRepositoryService
+    private technicalRequestModelRepositoryService: TechnicalRequestModelRepositoryService,
+    private editTechnicalRequestHttpService : EditTechnicalRequestHttpService
   ) {
     this.subcribeToTechnicalRequestModelValueSubject();
     this.subscribeToSelectedTechnicalRequestModelListSubject();
@@ -40,6 +44,7 @@ export class TechnicalRequestEditComponent {
     const data$ = this.technicalRequestModelSubject.asObservable();
     data$.subscribe((x) => {
       if (!x) return;
+      this.id = x.id;
       this.name = x.name;
 
       this.articles = x.articles;
@@ -50,14 +55,15 @@ export class TechnicalRequestEditComponent {
   }
   onEditTechnicalRequestModel_Click() {
     const get =
-      this.technicalRequestModelListRepositoryService.getTechnicalRequestModelListDomain();
-    get.editTechnicalRequestModel({ name: this.name, articles: this.articles });
-
-    this.technicalRequestModelListRepositoryService.save(
-      get.technicalRequestModelList
-    );
-    this.name = '';
-    this.router.navigate(['..']);
+      this.technicalRequestModelRepositoryService.getTechnicalRequestModelDomain();
+    if (!get.setValidName(this.name)) return;
+    this.isloading = true;
+    this.editTechnicalRequestHttpService
+      .execute(this.id, get.technicalRequestModel)
+      .subscribe((x) => {
+        this.name = '';
+        this.router.navigate(['..']);
+      });
   }
   onDelete() {
     // const tr = this.subject.getValue();
