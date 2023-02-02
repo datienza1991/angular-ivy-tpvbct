@@ -23,6 +23,7 @@ export class TechnicalRequestListComponent {
   ) {
     this.unSelectedAll();
     this.getData();
+    console.log(`${this.constructor.name}`);
   }
   getData() {
     this.isLoading = true;
